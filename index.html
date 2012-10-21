@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <meta charset="utf-8">
+        <title>jQuery Layout plugin</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- jquery -->
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.0/themes/smoothness/jquery-ui.css" />
+        <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+        <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>        
+        
+        <!-- bootstrap -->
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css">
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+        <!-- custom -->
+        <link rel="stylesheet" type="text/css" href="css/screen.css">
+        <script type="text/javascript" src="js/jlayout.js"></script>
+
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="#">jQuery UI Layout Builder</a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li class="active"><a href="#">Home</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <p class="lead">Use the builder below to create a basic html & css layout for a template.</p>
+            
+            <p>
+                <a class="btn btn-primary" href="#" id="add-block">Add Block</a>
+            </p>
+            
+            <div id="layout-builder">
+                <div class="layout-row">
+                    <div class="layout-block">
+                        <span class="block-name">Header</span>
+                        <div class="btn-group">
+                            <a class="btn split-block" href="#" title="Split Block"><i class="icon-pause"></i></a>
+                            <a class="btn remove-block" href="#" title="Remove Block"><i class="icon-trash"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="layout-row">
+                    <div class="layout-block">
+                        <span class="block-name">Left Col</span> 
+                        <div class="btn-group">
+                            <a class="btn split-block" href="#" title="Split Block"><i class="icon-pause"></i></a>
+                            <a class="btn remove-block" href="#" title="Remove Block"><i class="icon-trash"></i></a>
+                        </div>
+                    </div>
+                    <div class="layout-block">
+                        <span class="block-name">Main</span>
+                        <div class="btn-group">
+                            <a class="btn split-block" href="#" title="Split Block"><i class="icon-pause"></i></a>
+                            <a class="btn remove-block" href="#" title="Remove Block"><i class="icon-trash"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="layout-row">
+                    <div class="layout-block">
+                        <span class="block-name">Footer</span>
+                        <div class="btn-group">
+                            <a class="btn split-block" href="#" title="Split Block"><i class="icon-pause"></i></a>
+                            <a class="btn remove-block" href="#" title="Remove Block"><i class="icon-trash"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <p>
+                <a class="btn btn-success" href="#" id="save-template">Save Template</a>
+            </p>
+            
+        </div> <!-- /container -->
+    </body>
+</html>
