@@ -4,7 +4,8 @@ $(function() {
     var new_block_html = '<div class="layout-block">\
                         <span class="block-name">Block</span>\
                         <div class="btn-group">\
-                            <a class="btn split-block" href="#" title="Split Block"><i class="icon-pause"></i></a>\
+                            <a class="btn split-block-h" href="#" title="Split Block Horizontally"><i class="icon-resize-horizontal"></i></a>\
+                            <a class="btn split-block-v" href="#" title="Split Block Vertically"><i class="icon-resize-vertical"></i></a>\
                             <a class="btn remove-block" href="#" title="Remove Block"><i class="icon-trash"></i></a>\
                         </div>\
                     </div>';
@@ -12,15 +13,40 @@ $(function() {
     /*
      * Initialise it all
      */
-    $("#layout-builder").sortable();
-
-    $(".layout-block").draggable({
-        containment: "parent"
-    }).resizable({
+    
+    // Add tooltips for help 
+    $(".btn-group a").tooltip();
+    
+    
+    // Make the blocks horizontally resizeable
+    $( ".layout-block:not(:last-child)" ).resizable({
         containment: "parent",
-        handles: "e, w"
+        handles: "e",
+        resize: function() {
+            var remainingSpace = $(this).parent().width() - $(this).outerWidth(true),
+            divTwo = $(this).next(),
+            divTwoWidth = remainingSpace - (divTwo.outerWidth(true) - divTwo.width());
+        	divTwo.width(divTwoWidth);
+        	divTwo.css('left', $(this).position().left + $(this).outerWidth(true) + 8);
+        },
+        start: function() {
+            $(this).next('div').andSelf().wrapAll("<div class='resizeTemp'></div>");
+            var tempWidth = $(this).outerWidth() + $(this).next().outerWidth();
+            $(".resizeTemp").css('width', tempWidth);
+        },
+        stop: function() {
+            $(this).next('div').andSelf().unwrap();
+        }
     });
-
+    
+    // Make the rows vertically resizeable
+    $(".layout-row").resizable({
+    	containment: "parent",
+        handles: "s",
+    	resize: function() {
+    		$(this).children(".layout-block").height($(this).innerHeight() - 22); // here 22px is padding and border of layout-block
+    	}
+    });
 
     /*
      * Add block
@@ -34,13 +60,6 @@ $(function() {
         var new_block = $(new_block_html);
 
         new_row.append(new_block);
-
-        new_row.find(".layout-block").draggable({
-            containment: "parent"
-        }).resizable({
-            containment: "parent",
-            handles: "e, w"
-        });
 
         $("#layout-builder").append(new_row);
     });
@@ -67,9 +86,9 @@ $(function() {
 
 
     /*
-     * Split a block in two
+     * Split a block horizontally in two
      */
-    $(".split-block").live("click", function(e){
+    $(".split-block-h").live("click", function(e){
         e.preventDefault();
 
         var row = $(this).parents(".layout-row");
@@ -87,13 +106,26 @@ $(function() {
         block.css('width', block_width );
         new_block.css('width', block_width);
         new_block.css('left', block_pos.left + (block_width + block_margin + (2 * block_padding)));
-
-        new_block.draggable({
-            containment: "parent"
-        }).resizable({
-            containment: "parent",
-            handles: "e, w"
-        });
+        
+        new_block.resizable({
+        containment: "parent",
+        handles: "e",
+        resize: function() {
+            var remainingSpace = $(this).parent().width() - $(this).outerWidth(true),
+            divTwo = $(this).next(),
+            divTwoWidth = remainingSpace - (divTwo.outerWidth(true) - divTwo.width());
+        	divTwo.width(divTwoWidth);
+        	divTwo.css('left', $(this).position().left + $(this).outerWidth(true) + 8);
+        },
+        start: function() {
+            $(this).next('div').andSelf().wrapAll("<div class='resizeTemp'></div>");
+            var tempWidth = $(this).outerWidth() + $(this).next().outerWidth();
+            $(".resizeTemp").css('width', tempWidth);
+        },
+        stop: function() {
+            $(this).next('div').andSelf().unwrap();
+        }
+    });
 
         block.after(new_block);
     });
@@ -104,7 +136,28 @@ $(function() {
      */
     $(".remove-block").live("click", function(e){
         var row = $(this).parents(".layout-row");
+
+        var tempWidth = $(this).parents(".layout-block").outerWidth(true);
+        var tempPosition = $(this).parents(".layout-block").position();
+        
+        if ($(this).parents(".layout-block").is(':last-child')) {
+			var prevBlock = $(this).parents(".layout-block").prev();
+        } else {
+        	var nextBlock = $(this).parents(".layout-block").next();
+        }
+        
         $(this).parents(".layout-block").remove();
+        
+        if (prevBlock) {
+			prevBlock.animate({
+				width: prevBlock.width() + tempWidth + 8
+			}, 500);
+        } else {
+        	nextBlock.animate({
+        		width: nextBlock.width() + tempWidth + 8,
+        		left: tempPosition.left
+        	}, 500);
+        }
 
         if(row.children().length == 0) {
             row.remove();
