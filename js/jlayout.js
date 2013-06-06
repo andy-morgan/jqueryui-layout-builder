@@ -4,7 +4,8 @@ $(function() {
     var new_block_html = '<div class="layout-block">\
                         <span class="block-name">Block</span>\
                         <div class="btn-group">\
-                            <a class="btn split-block" href="#" title="Split Block"><i class="icon-pause"></i></a>\
+                            <a class="btn split-block-h" href="#" title="Split Block Horizontally"><i class="icon-resize-horizontal"></i></a>\
+                            <a class="btn split-block-v" href="#" title="Split Block Vertically"><i class="icon-resize-vertical"></i></a>\
                             <a class="btn remove-block" href="#" title="Remove Block"><i class="icon-trash"></i></a>\
                         </div>\
                     </div>';
@@ -12,7 +13,11 @@ $(function() {
     /*
      * Initialise it all
      */
+     
+    $(".btn-group a").tooltip();
     
+    
+    // Make the blocks horizontally resizeable
     $( ".layout-block:not(:last-child)" ).resizable({
         containment: "parent",
         handles: "e",
@@ -71,9 +76,9 @@ $(function() {
 
 
     /*
-     * Split a block in two
+     * Split a block horizontally in two
      */
-    $(".split-block").live("click", function(e){
+    $(".split-block-h").live("click", function(e){
         e.preventDefault();
 
         var row = $(this).parents(".layout-row");
