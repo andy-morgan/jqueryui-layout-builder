@@ -37,6 +37,15 @@ $(function() {
             $(this).next('div').andSelf().unwrap();
         }
     });
+    
+    // Make the rows vertically resizeable
+    $(".layout-row").resizable({
+    	containment: "parent",
+        handles: "s",
+    	resize: function() {
+    		$(this).children(".layout-block").height($(this).innerHeight() - 22); // here 22px is padding and border of layout-block
+    	}
+    });
 
     /*
      * Add block
