@@ -13,7 +13,8 @@ $(function() {
     /*
      * Initialise it all
      */
-     
+    
+    // Add tooltips for help 
     $(".btn-group a").tooltip();
     
     
